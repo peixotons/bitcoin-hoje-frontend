@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUp, ArrowDown, Bitcoin } from 'lucide-react';
+import { useBitcoinData } from '@/services/bitcoinService';
 
 type AdviceStatus = 'buy' | 'wait' | 'sell' | 'loading';
 
@@ -12,6 +13,7 @@ interface BitcoinAdviceProps {
 
 const BitcoinAdvice: React.FC<BitcoinAdviceProps> = ({ forceStatus }) => {
   const [status, setStatus] = useState<AdviceStatus>('loading');
+  const { data, isLoading } = useBitcoinData();
   
   useEffect(() => {
     if (forceStatus) {
@@ -19,17 +21,39 @@ const BitcoinAdvice: React.FC<BitcoinAdviceProps> = ({ forceStatus }) => {
       return;
     }
     
-    // Simula uma análise e decisão baseada em algoritmos
-    const timer = setTimeout(() => {
-      // Na implementação real, esta lógica viria da análise dos dados
-      // Por enquanto, vamos apenas pegar aleatoriamente um dos estados
+    if (isLoading) {
+      setStatus('loading');
+      return;
+    }
+    
+    // Analisar os dados para tomar uma decisão
+    // Em uma implementação real, essa lógica seria mais complexa
+    // com indicadores técnicos e análise mais profunda
+    if (data.length >= 2) {
+      // Lógica simples: verificamos se o preço está acima da média móvel (SMA)
+      // e se está em tendência de alta
+      
+      const latestPrice = data[data.length - 1].price;
+      const previousPrice = data[data.length - 2].price;
+      const latestSMA = data[data.length - 1].sma;
+      
+      const priceAboveSMA = latestPrice > latestSMA;
+      const priceIncreasing = latestPrice > previousPrice;
+      
+      if (priceAboveSMA && priceIncreasing) {
+        setStatus('buy');
+      } else if (!priceAboveSMA && !priceIncreasing) {
+        setStatus('sell');
+      } else {
+        setStatus('wait');
+      }
+    } else {
+      // Fallback para um estado aleatório se não houver dados suficientes
       const statuses: AdviceStatus[] = ['buy', 'wait', 'sell'];
       const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
       setStatus(randomStatus);
-    }, 1500);
-    
-    return () => clearTimeout(timer);
-  }, [forceStatus]);
+    }
+  }, [forceStatus, isLoading, data]);
 
   const renderContent = () => {
     switch (status) {

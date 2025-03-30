@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
           </div>
           <div className="text-sm text-gray-500">
             <p className="mb-1">
-              Os dados apresentados são apenas para fins informativos.
+              Os dados apresentados são obtidos da API Alpha Vantage.
             </p>
             <p>
               Não constitui aconselhamento financeiro profissional.

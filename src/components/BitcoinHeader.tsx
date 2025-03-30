@@ -10,8 +10,8 @@ const BitcoinHeader: React.FC = () => {
           <Bitcoin size={24} className="text-white" />
           <h1 className="text-xl font-bold">Bitcoin Timing Helper</h1>
         </div>
-        <div className="text-sm">
-          O guia definitivo para o seu investimento
+        <div className="text-sm flex items-center">
+          <span>Powered by Alpha Vantage API</span>
         </div>
       </div>
     </header>
