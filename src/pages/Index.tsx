@@ -1,12 +1,53 @@
-// Update this page (the content is just a fallback if you fail to update the page)
 
-const Index = () => {
+import React from 'react';
+import BitcoinHeader from '@/components/BitcoinHeader';
+import BitcoinChart from '@/components/BitcoinChart';
+import BitcoinAdvice from '@/components/BitcoinAdvice';
+import Footer from '@/components/Footer';
+
+const Index: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-bitcoin-background">
+      <BitcoinHeader />
+      
+      <main className="container mx-auto px-4 py-8 flex-grow">
+        <section className="mb-12 text-center">
+          <h1 className="text-4xl font-bold mb-4 mt-8">
+            É uma boa hora para comprar Bitcoin?
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Descubra agora se este é o momento ideal para investir na maior criptomoeda do mundo.
+          </p>
+        </section>
+        
+        <section className="mb-10">
+          <BitcoinAdvice />
+        </section>
+        
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-6">Análise Técnica</h2>
+          <BitcoinChart />
+        </section>
+        
+        <section className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+          <h2 className="text-2xl font-semibold mb-4">Por que você deve confiar neste site?</h2>
+          <p className="mb-3">
+            Utilizamos algoritmos avançados que analisam diversos indicadores técnicos para determinar 
+            o melhor momento para comprar Bitcoin:
+          </p>
+          <ul className="list-disc pl-6 mb-4 space-y-2">
+            <li>Médias móveis (SMA e EMA) para identificar tendências</li>
+            <li>Análise de volume para confirmar movimentos de preço</li>
+            <li>Indicadores de momentum como RSI (Índice de Força Relativa)</li>
+            <li>Padrões de gráfico e níveis de suporte/resistência</li>
+          </ul>
+          <p>
+            Nossa análise é atualizada constantemente para refletir as condições mais recentes do mercado.
+          </p>
+        </section>
+      </main>
+      
+      <Footer />
     </div>
   );
 };
