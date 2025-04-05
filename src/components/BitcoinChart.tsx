@@ -14,9 +14,11 @@ import {
 import { Calendar, AlertCircle } from 'lucide-react';
 import { useBitcoinData } from '@/services/bitcoinService';
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const BitcoinChart: React.FC = () => {
   const { data, isLoading, error } = useBitcoinData();
+  const isMobile = useIsMobile();
 
   if (isLoading) {
     return (
@@ -32,7 +34,7 @@ const BitcoinChart: React.FC = () => {
   return (
     <div className="space-y-4">
       {error && (
-        <Alert variant="warning">
+        <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
             {error}
@@ -53,20 +55,33 @@ const BitcoinChart: React.FC = () => {
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={data}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                margin={{ 
+                  top: 5, 
+                  right: isMobile ? 10 : 30, 
+                  left: isMobile ? 0 : 20, 
+                  bottom: 5 
+                }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="date" />
-                <YAxis />
+                <XAxis 
+                  dataKey="date" 
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  tickFormatter={(value) => isMobile ? value.slice(5) : value}
+                />
+                <YAxis 
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  width={isMobile ? 30 : 40}
+                />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
                     border: '1px solid #f0f0f0',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                   }}
                   formatter={(value) => [`$${value.toLocaleString()}`, 'Preço']}
                 />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
                 <Line 
                   type="monotone" 
                   dataKey="price" 
