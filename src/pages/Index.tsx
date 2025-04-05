@@ -3,9 +3,13 @@ import React from 'react';
 import BitcoinHeader from '@/components/BitcoinHeader';
 import BitcoinChart from '@/components/BitcoinChart';
 import BitcoinAdvice from '@/components/BitcoinAdvice';
+import BitcoinIndicators from '@/components/BitcoinIndicators';
 import Footer from '@/components/Footer';
+import { useBitcoinIndicators } from '@/services/bitcoinService';
 
 const Index: React.FC = () => {
+  const { data: indicators, isLoading: indicatorsLoading } = useBitcoinIndicators();
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-bitcoin-background">
       <BitcoinHeader />
@@ -20,12 +24,25 @@ const Index: React.FC = () => {
           </p>
         </section>
         
+        <section className="mb-8">
+          {!indicatorsLoading && (
+            <BitcoinIndicators 
+              mayerMultiple={indicators.mayerMultiple}
+              lowestMayer={indicators.lowestMayer}
+              highestMayer={indicators.highestMayer}
+              rsi={indicators.rsi}
+              lowestRSI={indicators.lowestRSI}
+              highestRSI={indicators.highestRSI}
+            />
+          )}
+        </section>
+        
         <section className="mb-10">
           <BitcoinAdvice />
         </section>
         
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-6">Análise Técnica</h2>
+          <h2 className="text-2xl font-semibold mb-6">Histórico de Preços</h2>
           <BitcoinChart />
         </section>
         
@@ -36,10 +53,11 @@ const Index: React.FC = () => {
             o melhor momento para comprar Bitcoin:
           </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
-            <li>Médias móveis (SMA e EMA) para identificar tendências</li>
+            <li>Multiplicador de Mayer para identificar momentos históricos de compra</li>
+            <li>Índice de Força Relativa (RSI) para detectar condições de sobrecompra/sobrevenda</li>
             <li>Análise de volume para confirmar movimentos de preço</li>
-            <li>Indicadores de momentum como RSI (Índice de Força Relativa)</li>
-            <li>Padrões de gráfico e níveis de suporte/resistência</li>
+            <li>Médias móveis (SMA e EMA) para identificar tendências</li>
+            <li>Índice de Medo e Ganância para entender o sentimento do mercado</li>
           </ul>
           <p>
             Nossa análise é atualizada constantemente para refletir as condições mais recentes do mercado.

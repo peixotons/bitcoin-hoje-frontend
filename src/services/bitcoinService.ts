@@ -12,6 +12,15 @@ interface BitcoinData {
   sma: number;
 }
 
+interface BitcoinIndicators {
+  mayerMultiple: number;
+  lowestMayer: number;
+  highestMayer: number;
+  rsi: number;
+  lowestRSI: number;
+  highestRSI: number;
+}
+
 export const useBitcoinData = () => {
   const [data, setData] = useState<BitcoinData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -112,6 +121,46 @@ export const useBitcoinData = () => {
   }, []);
   
   return { data, isLoading, error };
+};
+
+// Função para calcular os indicadores
+export const useBitcoinIndicators = (): { data: BitcoinIndicators, isLoading: boolean } => {
+  const [indicators, setIndicators] = useState<BitcoinIndicators>({
+    mayerMultiple: 0,
+    lowestMayer: 0,
+    highestMayer: 0,
+    rsi: 0,
+    lowestRSI: 0,
+    highestRSI: 0
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  const { data: priceData, isLoading: priceLoading } = useBitcoinData();
+  
+  useEffect(() => {
+    if (!priceLoading && priceData.length > 0) {
+      // Em um ambiente real, esses valores seriam calculados com base em dados históricos
+      // Por enquanto, estamos usando valores simulados
+      
+      // Simulando o Multiplicador de Mayer
+      const mayerMultiple = priceData[priceData.length - 1].price / priceData[priceData.length - 1].sma;
+      
+      // Simulando o RSI
+      const rsi = 35 + Math.random() * 30; // Valor entre 35 e 65
+      
+      setIndicators({
+        mayerMultiple: mayerMultiple,
+        lowestMayer: 0.5,
+        highestMayer: 2.4,
+        rsi: rsi,
+        lowestRSI: 20,
+        highestRSI: 80
+      });
+      
+      setIsLoading(false);
+    }
+  }, [priceData, priceLoading]);
+  
+  return { data: indicators, isLoading };
 };
 
 // Função para gerar dados simulados (mantida como fallback)
