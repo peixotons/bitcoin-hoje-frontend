@@ -92,19 +92,27 @@ const BitcoinChart: React.FC = () => {
                 />
                 <Line 
                   type="monotone" 
-                  dataKey="ema" 
-                  stroke="#2563EB" 
-                  strokeWidth={1.5} 
-                  dot={false} 
-                  name="EMA"
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="sma" 
+                  dataKey="sma50" 
                   stroke="#10B981" 
                   strokeWidth={1.5} 
                   dot={false} 
-                  name="SMA"
+                  name="SMA 50"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="sma100" 
+                  stroke="#2563EB" 
+                  strokeWidth={1.5} 
+                  dot={false} 
+                  name="SMA 100"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="sma200" 
+                  stroke="#7C3AED" 
+                  strokeWidth={1.5} 
+                  dot={false} 
+                  name="SMA 200"
                 />
               </LineChart>
             </ResponsiveContainer>

@@ -8,8 +8,9 @@ const ALPHA_VANTAGE_API_KEY = "demo"; // Substitua por sua chave API real
 interface BitcoinData {
   date: string;
   price: number;
-  ema: number;
-  sma: number;
+  sma50: number;
+  sma100: number;
+  sma200: number;
 }
 
 interface BitcoinIndicators {
@@ -45,27 +46,26 @@ export const useBitcoinData = () => {
           throw new Error(priceData['Error Message']);
         }
         
-        // Buscar dados de SMA (Simple Moving Average)
-        const smaResponse = await fetch(
-          `https://www.alphavantage.co/query?function=SMA&symbol=BTC&interval=daily&time_period=10&series_type=close&apikey=${ALPHA_VANTAGE_API_KEY}`
+        // Buscar dados de SMA (Simple Moving Average) para diferentes períodos
+        const sma50Response = await fetch(
+          `https://www.alphavantage.co/query?function=SMA&symbol=BTC&interval=daily&time_period=50&series_type=close&apikey=${ALPHA_VANTAGE_API_KEY}`
         );
         
-        if (!smaResponse.ok) {
+        const sma100Response = await fetch(
+          `https://www.alphavantage.co/query?function=SMA&symbol=BTC&interval=daily&time_period=100&series_type=close&apikey=${ALPHA_VANTAGE_API_KEY}`
+        );
+        
+        const sma200Response = await fetch(
+          `https://www.alphavantage.co/query?function=SMA&symbol=BTC&interval=daily&time_period=200&series_type=close&apikey=${ALPHA_VANTAGE_API_KEY}`
+        );
+        
+        if (!sma50Response.ok || !sma100Response.ok || !sma200Response.ok) {
           throw new Error('Erro ao buscar dados de SMA');
         }
         
-        const smaData = await smaResponse.json();
-        
-        // Buscar dados de EMA (Exponential Moving Average)
-        const emaResponse = await fetch(
-          `https://www.alphavantage.co/query?function=EMA&symbol=BTC&interval=daily&time_period=10&series_type=close&apikey=${ALPHA_VANTAGE_API_KEY}`
-        );
-        
-        if (!emaResponse.ok) {
-          throw new Error('Erro ao buscar dados de EMA');
-        }
-        
-        const emaData = await emaResponse.json();
+        const sma50Data = await sma50Response.json();
+        const sma100Data = await sma100Response.json();
+        const sma200Data = await sma200Response.json();
         
         // Processar os dados
         const processedData: BitcoinData[] = [];
@@ -83,23 +83,28 @@ export const useBitcoinData = () => {
             
             const price = parseFloat(timeSeriesData[date]['4a. close (USD)']);
             
-            // Encontrar valor SMA correspondente
-            let sma = 0;
-            if (smaData['Technical Analysis: SMA'] && smaData['Technical Analysis: SMA'][date]) {
-              sma = parseFloat(smaData['Technical Analysis: SMA'][date]['SMA']);
+            // Encontrar valores SMA correspondentes
+            let sma50 = 0;
+            if (sma50Data['Technical Analysis: SMA'] && sma50Data['Technical Analysis: SMA'][date]) {
+              sma50 = parseFloat(sma50Data['Technical Analysis: SMA'][date]['SMA']);
             }
             
-            // Encontrar valor EMA correspondente
-            let ema = 0;
-            if (emaData['Technical Analysis: EMA'] && emaData['Technical Analysis: EMA'][date]) {
-              ema = parseFloat(emaData['Technical Analysis: EMA'][date]['EMA']);
+            let sma100 = 0;
+            if (sma100Data['Technical Analysis: SMA'] && sma100Data['Technical Analysis: SMA'][date]) {
+              sma100 = parseFloat(sma100Data['Technical Analysis: SMA'][date]['SMA']);
+            }
+            
+            let sma200 = 0;
+            if (sma200Data['Technical Analysis: SMA'] && sma200Data['Technical Analysis: SMA'][date]) {
+              sma200 = parseFloat(sma200Data['Technical Analysis: SMA'][date]['SMA']);
             }
             
             processedData.push({
               date: `${day}/${month}`,
               price,
-              sma,
-              ema
+              sma50,
+              sma100,
+              sma200
             });
           });
         }
@@ -142,7 +147,7 @@ export const useBitcoinIndicators = (): { data: BitcoinIndicators, isLoading: bo
       // Por enquanto, estamos usando valores simulados
       
       // Simulando o Multiplicador de Mayer
-      const mayerMultiple = priceData[priceData.length - 1].price / priceData[priceData.length - 1].sma;
+      const mayerMultiple = priceData[priceData.length - 1].price / priceData[priceData.length - 1].sma200;
       
       // Simulando o RSI
       const rsi = 35 + Math.random() * 30; // Valor entre 35 e 65
@@ -178,17 +183,17 @@ export const generateMockData = (): BitcoinData[] => {
     const randomChange = basePrice * randomFactor * (Math.random() - 0.5);
     const price = basePrice + randomChange * (i + 1);
     
-    // Simulando médias móveis simples
-    const sma = price * (1 - 0.02 * Math.random());
-    
-    // Simulando médias móveis exponenciais
-    const ema = price * (1 + 0.01 * Math.random());
+    // Simulando médias móveis diferentes
+    const sma50 = price * (1 - 0.01 * Math.random());
+    const sma100 = price * (1 - 0.02 * Math.random());
+    const sma200 = price * (1 - 0.04 * Math.random());
     
     data.push({
       date: `${date.getDate()}/${date.getMonth() + 1}`,
       price: Math.round(price),
-      ema: Math.round(ema),
-      sma: Math.round(sma)
+      sma50: Math.round(sma50),
+      sma100: Math.round(sma100),
+      sma200: Math.round(sma200)
     });
   }
   

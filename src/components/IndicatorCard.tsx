@@ -22,6 +22,10 @@ interface IndicatorCardProps {
   goodDirection: 'up' | 'down';
   description: string;
   color: string;
+  valueLabels?: {
+    lowest?: string;
+    highest?: string;
+  };
 }
 
 const IndicatorCard: React.FC<IndicatorCardProps> = ({
@@ -31,7 +35,8 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({
   highestValue,
   goodDirection,
   description,
-  color
+  color,
+  valueLabels = { lowest: "Mínimo", highest: "Máximo" }
 }) => {
   const isPositive = (goodDirection === 'up' && currentValue > 1.0) || 
                      (goodDirection === 'down' && currentValue < 40);
@@ -65,10 +70,10 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({
         </div>
         <div className="flex justify-between text-xs text-muted-foreground">
           {lowestValue !== undefined && (
-            <span>Mínimo: {lowestValue.toFixed(2)}</span>
+            <span>{valueLabels.lowest}: {lowestValue.toFixed(2)}</span>
           )}
           {highestValue !== undefined && (
-            <span>Máximo: {highestValue.toFixed(2)}</span>
+            <span>{valueLabels.highest}: {highestValue.toFixed(2)}</span>
           )}
         </div>
       </CardContent>

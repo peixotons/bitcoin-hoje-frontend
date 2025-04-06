@@ -35,6 +35,10 @@ const BitcoinIndicators: React.FC<BitcoinIndicatorsProps> = ({
           goodDirection="down"
           description="O Multiplicador de Mayer é a razão entre o preço atual do Bitcoin e sua média móvel de 200 dias. Valores abaixo de 0.8 historicamente indicam boas oportunidades de compra."
           color="#9b87f5"
+          valueLabels={{
+            lowest: "Mínimo histórico",
+            highest: "Máximo histórico"
+          }}
         />
         
         <IndicatorCard
@@ -45,6 +49,10 @@ const BitcoinIndicators: React.FC<BitcoinIndicatorsProps> = ({
           goodDirection="down"
           description="O RSI mede a velocidade e a mudança dos movimentos de preços. Valores abaixo de 30 são considerados 'sobrevendidos' e podem indicar boas oportunidades de compra."
           color="#F97316"
+          valueLabels={{
+            lowest: "Mínimo últimos anos",
+            highest: "Máximo últimos anos"
+          }}
         />
 
         <IndicatorCard
@@ -55,6 +63,10 @@ const BitcoinIndicators: React.FC<BitcoinIndicatorsProps> = ({
           goodDirection="down"
           description="O Índice de Medo e Ganância analisa o sentimento do mercado. Valores mais baixos indicam medo extremo, o que geralmente representa boas oportunidades de compra."
           color="#0EA5E9"
+          valueLabels={{
+            lowest: "Extremo medo",
+            highest: "Extrema ganância"
+          }}
         />
       </div>
     </div>
