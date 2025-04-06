@@ -30,9 +30,6 @@ const Index: React.FC = () => {
               mayerMultiple={indicators.mayerMultiple}
               lowestMayer={indicators.lowestMayer}
               highestMayer={indicators.highestMayer}
-              rsi={indicators.rsi}
-              lowestRSI={indicators.lowestRSI}
-              highestRSI={indicators.highestRSI}
             />
           )}
         </section>
@@ -54,10 +51,9 @@ const Index: React.FC = () => {
           </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
             <li>Multiplicador de Mayer para identificar momentos históricos de compra</li>
-            <li>Índice de Força Relativa (RSI) para detectar condições de sobrecompra/sobrevenda</li>
-            <li>Análise de volume para confirmar movimentos de preço</li>
-            <li>Médias móveis (SMA e EMA) para identificar tendências</li>
             <li>Índice de Medo e Ganância para entender o sentimento do mercado</li>
+            <li>Análise de volume para confirmar movimentos de preço</li>
+            <li>Médias móveis (SMA de 50, 100 e 200 dias) para identificar tendências</li>
           </ul>
           <p>
             Nossa análise é atualizada constantemente para refletir as condições mais recentes do mercado.

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ArrowUp, ArrowDown, HelpCircle } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 import { 
   Card, 
   CardContent, 
@@ -19,7 +19,6 @@ interface IndicatorCardProps {
   currentValue: number;
   lowestValue?: number;
   highestValue?: number;
-  goodDirection: 'up' | 'down';
   description: string;
   color: string;
   valueLabels?: {
@@ -33,14 +32,10 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({
   currentValue,
   lowestValue,
   highestValue,
-  goodDirection,
   description,
   color,
   valueLabels = { lowest: "Mínimo", highest: "Máximo" }
 }) => {
-  const isPositive = (goodDirection === 'up' && currentValue > 1.0) || 
-                     (goodDirection === 'down' && currentValue < 40);
-
   return (
     <Card className={`border-l-4 overflow-hidden`} style={{ borderLeftColor: color }}>
       <CardHeader className="pb-2 pt-4 px-4">
@@ -58,10 +53,6 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({
               </TooltipContent>
             </Tooltip>
           </CardTitle>
-          {goodDirection === 'up' ? 
-            <ArrowUp className={`h-4 w-4 ${isPositive ? 'text-green-500' : 'text-red-500'}`} /> : 
-            <ArrowDown className={`h-4 w-4 ${isPositive ? 'text-green-500' : 'text-red-500'}`} />
-          }
         </div>
       </CardHeader>
       <CardContent className="pt-0 pb-3 px-4">

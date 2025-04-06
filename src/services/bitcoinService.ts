@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 // TODO: Idealmente, esta chave estaria em uma variável de ambiente no servidor
@@ -17,9 +16,6 @@ interface BitcoinIndicators {
   mayerMultiple: number;
   lowestMayer: number;
   highestMayer: number;
-  rsi: number;
-  lowestRSI: number;
-  highestRSI: number;
 }
 
 export const useBitcoinData = () => {
@@ -134,9 +130,6 @@ export const useBitcoinIndicators = (): { data: BitcoinIndicators, isLoading: bo
     mayerMultiple: 0,
     lowestMayer: 0,
     highestMayer: 0,
-    rsi: 0,
-    lowestRSI: 0,
-    highestRSI: 0
   });
   const [isLoading, setIsLoading] = useState(true);
   const { data: priceData, isLoading: priceLoading } = useBitcoinData();
@@ -149,16 +142,10 @@ export const useBitcoinIndicators = (): { data: BitcoinIndicators, isLoading: bo
       // Simulando o Multiplicador de Mayer
       const mayerMultiple = priceData[priceData.length - 1].price / priceData[priceData.length - 1].sma200;
       
-      // Simulando o RSI
-      const rsi = 35 + Math.random() * 30; // Valor entre 35 e 65
-      
       setIndicators({
         mayerMultiple: mayerMultiple,
         lowestMayer: 0.5,
         highestMayer: 2.4,
-        rsi: rsi,
-        lowestRSI: 20,
-        highestRSI: 80
       });
       
       setIsLoading(false);
