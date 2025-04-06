@@ -21,23 +21,18 @@ const BitcoinAdvice: React.FC<BitcoinAdviceProps> = ({ forceStatus }) => {
       return;
     }
     
-    if (isLoading) {
+    if (isLoading || !data?.priceData) {
       setStatus('loading');
       return;
     }
     
     // Analisar os dados para tomar uma decisão
-    // Em uma implementação real, essa lógica seria mais complexa
-    // com indicadores técnicos e análise mais profunda
-    if (data.length >= 2) {
-      // Lógica simples: verificamos se o preço está acima da média móvel (SMA)
-      // e se está em tendência de alta
+    if (data.priceData.length >= 2) {
+      const latestPrice = data.priceData[data.priceData.length - 1].price;
+      const previousPrice = data.priceData[data.priceData.length - 2].price;
+      const latestSMA200 = data.priceData[data.priceData.length - 1].sma200;
       
-      const latestPrice = data[data.length - 1].price;
-      const previousPrice = data[data.length - 2].price;
-      const latestSMA = data[data.length - 1].sma;
-      
-      const priceAboveSMA = latestPrice > latestSMA;
+      const priceAboveSMA = latestPrice > latestSMA200;
       const priceIncreasing = latestPrice > previousPrice;
       
       if (priceAboveSMA && priceIncreasing) {

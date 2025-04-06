@@ -5,10 +5,10 @@ import BitcoinChart from '@/components/BitcoinChart';
 import BitcoinAdvice from '@/components/BitcoinAdvice';
 import BitcoinIndicators from '@/components/BitcoinIndicators';
 import Footer from '@/components/Footer';
-import { useBitcoinIndicators } from '@/services/bitcoinService';
+import { useBitcoinData } from '@/services/bitcoinService';
 
 const Index: React.FC = () => {
-  const { data: indicators, isLoading: indicatorsLoading } = useBitcoinIndicators();
+  const { data, isLoading } = useBitcoinData();
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-bitcoin-background">
@@ -25,11 +25,14 @@ const Index: React.FC = () => {
         </section>
         
         <section className="mb-8">
-          {!indicatorsLoading && (
+          {!isLoading && data && (
             <BitcoinIndicators 
-              mayerMultiple={indicators.mayerMultiple}
-              lowestMayer={indicators.lowestMayer}
-              highestMayer={indicators.highestMayer}
+              mayerMultiple={data.mayerMultiple}
+              lowestMayer={data.lowestMayer}
+              highestMayer={data.highestMayer}
+              fearGreedIndex={data.fearGreedIndex}
+              lowestFearGreed={data.lowestFearGreed}
+              highestFearGreed={data.highestFearGreed}
             />
           )}
         </section>

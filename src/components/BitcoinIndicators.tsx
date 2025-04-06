@@ -4,16 +4,21 @@ import IndicatorCard from './IndicatorCard';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface BitcoinIndicatorsProps {
-  // Valores para os indicadores
   mayerMultiple: number;
   lowestMayer: number;
   highestMayer: number;
+  fearGreedIndex: number;
+  lowestFearGreed: number;
+  highestFearGreed: number;
 }
 
 const BitcoinIndicators: React.FC<BitcoinIndicatorsProps> = ({
   mayerMultiple,
   lowestMayer,
-  highestMayer
+  highestMayer,
+  fearGreedIndex,
+  lowestFearGreed,
+  highestFearGreed
 }) => {
   const isMobile = useIsMobile();
   
@@ -36,9 +41,9 @@ const BitcoinIndicators: React.FC<BitcoinIndicatorsProps> = ({
         
         <IndicatorCard
           title="Índice de Medo e Ganância"
-          currentValue={25}
-          lowestValue={10}
-          highestValue={90}
+          currentValue={fearGreedIndex}
+          lowestValue={lowestFearGreed}
+          highestValue={highestFearGreed}
           description="O Índice de Medo e Ganância analisa o sentimento do mercado. Valores mais baixos indicam medo extremo, o que geralmente representa boas oportunidades de compra."
           color="#0EA5E9"
           valueLabels={{

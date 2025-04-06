@@ -31,13 +31,28 @@ const BitcoinChart: React.FC = () => {
     );
   }
 
+  if (!data?.priceData) {
+    return (
+      <Card className="w-full">
+        <CardContent>
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              Não foi possível carregar os dados de preço do Bitcoin.
+            </AlertDescription>
+          </Alert>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {error && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            {error}
+            {error instanceof Error ? error.message : "Erro ao carregar dados"}
           </AlertDescription>
         </Alert>
       )}
@@ -54,7 +69,7 @@ const BitcoinChart: React.FC = () => {
           <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                data={data}
+                data={data.priceData}
                 margin={{ 
                   top: 5, 
                   right: isMobile ? 10 : 30, 
