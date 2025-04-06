@@ -1,8 +1,22 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-// Types for our data structure
-export interface BitcoinData {
+// Types for our data structure based on the provided DTO
+export interface BitcoinCurrentData {
+  price: number;
+  mayerMultiple: number;
+  mayerMultipleStats: {
+    min: number;
+    max: number;
+  };
+  fearAndGreedIndex: {
+    value: number;
+    min: number;
+    max: number;
+  };
+}
+
+export interface BitcoinHistoricalData {
   date: string;
   price: number;
   sma50: number;
@@ -10,23 +24,18 @@ export interface BitcoinData {
   sma200: number;
 }
 
-export interface BitcoinIndicators {
-  mayerMultiple: number;
-  lowestMayer: number;
-  highestMayer: number;
-  fearGreedIndex: number;
-  lowestFearGreed: number;
-  highestFearGreed: number;
-  priceData: BitcoinData[];
+export interface BitcoinResponseDTO {
+  currentData: BitcoinCurrentData;
+  historicalData: BitcoinHistoricalData[];
 }
 
 // Main hook to fetch all Bitcoin data from our API
 export const useBitcoinData = () => {
   return useQuery({
     queryKey: ['bitcoinData'],
-    queryFn: async (): Promise<BitcoinIndicators> => {
+    queryFn: async (): Promise<BitcoinResponseDTO> => {
       try {
-        const response = await fetch('http://localhost:3000/bitcoin');
+        const response = await fetch('http://localhost:3000/redis');
         
         if (!response.ok) {
           throw new Error('Erro ao buscar dados do Bitcoin');
@@ -45,8 +54,8 @@ export const useBitcoinData = () => {
 };
 
 // Generate mock data for development and fallback purposes
-const generateMockData = (): BitcoinIndicators => {
-  const priceData: BitcoinData[] = [];
+const generateMockData = (): BitcoinResponseDTO => {
+  const historicalData: BitcoinHistoricalData[] = [];
   const today = new Date();
   const basePrice = 60000;
   
@@ -62,7 +71,7 @@ const generateMockData = (): BitcoinIndicators => {
     const sma100 = price * (1 - 0.02 * Math.random());
     const sma200 = price * (1 - 0.04 * Math.random());
     
-    priceData.push({
+    historicalData.push({
       date: `${date.getDate()}/${date.getMonth() + 1}`,
       price: Math.round(price),
       sma50: Math.round(sma50),
@@ -72,12 +81,19 @@ const generateMockData = (): BitcoinIndicators => {
   }
   
   return {
-    mayerMultiple: 1.2,
-    lowestMayer: 0.5,
-    highestMayer: 2.4,
-    fearGreedIndex: 25,
-    lowestFearGreed: 10,
-    highestFearGreed: 90,
-    priceData
+    currentData: {
+      price: historicalData[historicalData.length - 1].price,
+      mayerMultiple: 1.2,
+      mayerMultipleStats: {
+        min: 0.5,
+        max: 2.4
+      },
+      fearAndGreedIndex: {
+        value: 25,
+        min: 10,
+        max: 90
+      }
+    },
+    historicalData
   };
 };

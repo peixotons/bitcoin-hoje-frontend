@@ -31,7 +31,7 @@ const BitcoinChart: React.FC = () => {
     );
   }
 
-  if (!data?.priceData) {
+  if (!data?.historicalData) {
     return (
       <Card className="w-full">
         <CardContent>
@@ -69,7 +69,7 @@ const BitcoinChart: React.FC = () => {
           <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                data={data.priceData}
+                data={data.historicalData}
                 margin={{ 
                   top: 5, 
                   right: isMobile ? 10 : 30, 
@@ -81,7 +81,7 @@ const BitcoinChart: React.FC = () => {
                 <XAxis 
                   dataKey="date" 
                   tick={{ fontSize: isMobile ? 10 : 12 }}
-                  tickFormatter={(value) => isMobile ? value.slice(5) : value}
+                  tickFormatter={(value) => isMobile ? value.split('/')[0] : value}
                 />
                 <YAxis 
                   tick={{ fontSize: isMobile ? 10 : 12 }}
@@ -94,16 +94,35 @@ const BitcoinChart: React.FC = () => {
                     borderRadius: '8px',
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                   }}
-                  formatter={(value) => [`$${value.toLocaleString()}`, 'Preço']}
+                  formatter={(value, name) => {
+                    const formattedNames = {
+                      price: 'Preço Bitcoin (USD)',
+                      sma50: 'SMA 50 dias',
+                      sma100: 'SMA 100 dias',
+                      sma200: 'SMA 200 dias'
+                    };
+                    return [`$${value.toLocaleString()}`, formattedNames[name as keyof typeof formattedNames]];
+                  }}
                 />
-                <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
+                <Legend 
+                  wrapperStyle={{ fontSize: isMobile ? 10 : 12 }}
+                  formatter={(value) => {
+                    const formattedNames = {
+                      price: 'Preço Bitcoin (USD)',
+                      sma50: 'SMA 50 dias',
+                      sma100: 'SMA 100 dias',
+                      sma200: 'SMA 200 dias'
+                    };
+                    return formattedNames[value as keyof typeof formattedNames];
+                  }}
+                />
                 <Line 
                   type="monotone" 
                   dataKey="price" 
                   stroke="#F7931A" 
                   activeDot={{ r: 8 }} 
                   strokeWidth={2} 
-                  name="Preço Bitcoin (USD)"
+                  name="price"
                 />
                 <Line 
                   type="monotone" 
@@ -111,7 +130,7 @@ const BitcoinChart: React.FC = () => {
                   stroke="#10B981" 
                   strokeWidth={1.5} 
                   dot={false} 
-                  name="SMA 50 dias"
+                  name="sma50"
                 />
                 <Line 
                   type="monotone" 
@@ -119,7 +138,7 @@ const BitcoinChart: React.FC = () => {
                   stroke="#2563EB" 
                   strokeWidth={1.5} 
                   dot={false} 
-                  name="SMA 100 dias"
+                  name="sma100"
                 />
                 <Line 
                   type="monotone" 
@@ -127,7 +146,7 @@ const BitcoinChart: React.FC = () => {
                   stroke="#7C3AED" 
                   strokeWidth={1.5} 
                   dot={false} 
-                  name="SMA 200 dias"
+                  name="sma200"
                 />
               </LineChart>
             </ResponsiveContainer>

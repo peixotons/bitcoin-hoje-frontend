@@ -27,12 +27,12 @@ const Index: React.FC = () => {
         <section className="mb-8">
           {!isLoading && data && (
             <BitcoinIndicators 
-              mayerMultiple={data.mayerMultiple}
-              lowestMayer={data.lowestMayer}
-              highestMayer={data.highestMayer}
-              fearGreedIndex={data.fearGreedIndex}
-              lowestFearGreed={data.lowestFearGreed}
-              highestFearGreed={data.highestFearGreed}
+              mayerMultiple={data.currentData.mayerMultiple}
+              lowestMayer={data.currentData.mayerMultipleStats.min}
+              highestMayer={data.currentData.mayerMultipleStats.max}
+              fearGreedIndex={data.currentData.fearAndGreedIndex.value}
+              lowestFearGreed={data.currentData.fearAndGreedIndex.min}
+              highestFearGreed={data.currentData.fearAndGreedIndex.max}
             />
           )}
         </section>
@@ -58,7 +58,7 @@ const Index: React.FC = () => {
             <li>Médias móveis (SMA de 50, 100 e 200 dias) para identificar tendências</li>
           </ul>
           <p>
-            Nossa análise é atualizada constantemente para refletir as condições mais recentes do mercado.
+            Os dados apresentados são apenas informativos. Não constitui aconselhamento financeiro profissional.
           </p>
         </section>
       </main>
