@@ -52,7 +52,6 @@ const Index: React.FC = () => {
           <ul className="list-disc pl-6 mb-4 space-y-2">
             <li>Multiplicador de Mayer para identificar momentos históricos de compra</li>
             <li>Índice de Medo e Ganância para entender o sentimento do mercado</li>
-            <li>Análise de volume para confirmar movimentos de preço</li>
             <li>Médias móveis (SMA de 50, 100 e 200 dias) para identificar tendências</li>
           </ul>
           <p>

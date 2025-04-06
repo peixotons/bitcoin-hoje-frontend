@@ -13,14 +13,9 @@ const Footer: React.FC = () => {
               © {new Date().getFullYear()} Bitcoin Timing Helper
             </p>
           </div>
-          <div className="text-sm text-gray-500 text-center md:text-right">
-            <p className="mb-1">
-              Os dados apresentados são apenas informativos.
-            </p>
-            <p>
-              Não constitui aconselhamento financeiro profissional.
-            </p>
-          </div>
+          <p className="text-sm text-gray-500 text-center md:text-right">
+            Os dados apresentados são apenas informativos. Não constitui aconselhamento financeiro profissional.
+          </p>
         </div>
       </div>
     </footer>

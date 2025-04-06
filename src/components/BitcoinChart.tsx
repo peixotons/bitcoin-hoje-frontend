@@ -88,7 +88,7 @@ const BitcoinChart: React.FC = () => {
                   stroke="#F7931A" 
                   activeDot={{ r: 8 }} 
                   strokeWidth={2} 
-                  name="Preço (USD)"
+                  name="Preço Bitcoin (USD)"
                 />
                 <Line 
                   type="monotone" 
@@ -96,7 +96,7 @@ const BitcoinChart: React.FC = () => {
                   stroke="#10B981" 
                   strokeWidth={1.5} 
                   dot={false} 
-                  name="SMA 50"
+                  name="SMA 50 dias"
                 />
                 <Line 
                   type="monotone" 
@@ -104,7 +104,7 @@ const BitcoinChart: React.FC = () => {
                   stroke="#2563EB" 
                   strokeWidth={1.5} 
                   dot={false} 
-                  name="SMA 100"
+                  name="SMA 100 dias"
                 />
                 <Line 
                   type="monotone" 
@@ -112,7 +112,7 @@ const BitcoinChart: React.FC = () => {
                   stroke="#7C3AED" 
                   strokeWidth={1.5} 
                   dot={false} 
-                  name="SMA 200"
+                  name="SMA 200 dias"
                 />
               </LineChart>
             </ResponsiveContainer>
