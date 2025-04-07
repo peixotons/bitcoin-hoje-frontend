@@ -1,0 +1,15 @@
+services:
+  frontend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    networks:
+      - bitcoin-hoje-network
+
+networks:
+  bitcoin-hoje-network:
+    external: true
