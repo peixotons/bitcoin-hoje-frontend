@@ -10,7 +10,7 @@ export interface BitcoinCurrentData {
     max: number;
   };
   fearAndGreedIndex: {
-    value: number;
+    today: number;
     min: number;
     max: number;
   };
@@ -95,7 +95,7 @@ const generateMockData = (): BitcoinResponseDTO => {
         max: 2.4
       },
       fearAndGreedIndex: {
-        value: 25,
+        today: 25,
         min: 10,
         max: 90
       }

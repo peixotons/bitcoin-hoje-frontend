@@ -30,7 +30,7 @@ const Index: React.FC = () => {
               mayerMultiple={data.currentData.mayerMultiple}
               lowestMayer={data.currentData.mayerMultipleStats.min}
               highestMayer={data.currentData.mayerMultipleStats.max}
-              fearGreedIndex={data.currentData.fearAndGreedIndex.value}
+              fearGreedIndex={data.currentData.fearAndGreedIndex.today}
               lowestFearGreed={data.currentData.fearAndGreedIndex.min}
               highestFearGreed={data.currentData.fearAndGreedIndex.max}
             />
