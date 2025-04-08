@@ -35,8 +35,14 @@ export const useBitcoinData = () => {
     queryKey: ['bitcoinData'],
     queryFn: async (): Promise<BitcoinResponseDTO> => {
       try {
-        const response = await fetch('http://localhost:3000/redis');
-        
+        const response = await fetch('https://bitcoinhoje.site/api/redis', {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer 3MQ4fAAmdCW09pJdit6xEMub0tEkn7',
+            'Content-Type': 'application/json',
+          },
+        });        
+
         if (!response.ok) {
           throw new Error('Erro ao buscar dados do Bitcoin');
         }
