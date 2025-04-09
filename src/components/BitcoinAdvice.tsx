@@ -21,28 +21,33 @@ const BitcoinAdvice: React.FC<BitcoinAdviceProps> = ({ forceStatus }) => {
       return;
     }
     
-    console.log(data);
-    
-    if (isLoading || !data?.priceData) {
+    if (isLoading || !data?.currentData) {
       setStatus('loading');
       return;
     }
     
     // Analisar os dados para tomar uma decisão
-    if (data.priceData.length >= 2) {
-      const latestPrice = data.priceData[data.priceData.length - 1].price;
-      const previousPrice = data.priceData[data.priceData.length - 2].price;
-      const latestSMA200 = data.priceData[data.priceData.length - 1].sma200;
-      
-      const priceAboveSMA = latestPrice > latestSMA200;
-      const priceIncreasing = latestPrice > previousPrice;
-      
-      if (priceAboveSMA && priceIncreasing) {
+    if (data.currentData) {
+      // Extrai os dados necessários do objeto currentData
+      const { fearAndGreedIndex, mayerMultiple } = data.currentData;
+    
+      // Define as condições de acordo com as regras de negócio:
+      // Condição para fearAndGreed: índice de hoje menor que 20
+      const conditionFearGreed = fearAndGreedIndex.today < 20;
+      // Condição para mayerMultiple: valor menor que 80
+      const conditionMayerMultiple = mayerMultiple < 80;
+    
+      // Se ambas as condições forem satisfeitas, é sinal de compra
+      if (conditionFearGreed && conditionMayerMultiple) {
         setStatus('buy');
-      } else if (!priceAboveSMA && !priceIncreasing) {
-        setStatus('sell');
-      } else {
+      }
+      // Se somente uma das condições for satisfeita, o status é neutro
+      else if (conditionFearGreed || conditionMayerMultiple) {
         setStatus('wait');
+      }
+      // Se nenhuma das condições for satisfeita, o status é 'sell'
+      else {
+        setStatus('sell');
       }
     } else {
       // Fallback para um estado aleatório se não houver dados suficientes
