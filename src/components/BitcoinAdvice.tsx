@@ -35,7 +35,7 @@ const BitcoinAdvice: React.FC<BitcoinAdviceProps> = ({ forceStatus }) => {
       // Condição para fearAndGreed: índice de hoje menor que 20
       const conditionFearGreed = fearAndGreedIndex.today < 20;
       // Condição para mayerMultiple: valor menor que 80
-      const conditionMayerMultiple = mayerMultiple <= 0.8;
+      const conditionMayerMultiple = mayerMultiple <= 0.9;
     
       // Se ambas as condições forem satisfeitas, é sinal de compra
       if (conditionFearGreed && conditionMayerMultiple) {
