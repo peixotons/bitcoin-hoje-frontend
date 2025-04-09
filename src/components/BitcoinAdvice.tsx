@@ -21,6 +21,8 @@ const BitcoinAdvice: React.FC<BitcoinAdviceProps> = ({ forceStatus }) => {
       return;
     }
     
+    console.log(data);
+    
     if (isLoading || !data?.priceData) {
       setStatus('loading');
       return;
